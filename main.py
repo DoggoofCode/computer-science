@@ -4,7 +4,18 @@ import numpy as np
 class TitlePage:
     @classmethod
     def Run(cls):
-        pass
+        # Title
+        st.title("Trajectory Calculator")
+
+        # Line Break
+        st.divider()
+
+        # Short Description
+        st.write(
+            "This project aims to help student calculate the trajectory"
+            " of an object in a 2 dimensional plane, as well as finding the"
+            " trajectories properties"
+        )
 
 class SingleSolve:
     @classmethod
@@ -17,11 +28,17 @@ class FullSolve:
         pass
 
 def main():
+    # Sets Essential Page Configuration (wide-screen mode)
+    st.set_page_config(
+        page_title="Trajectory Calculator",
+        layout="wide"
+    )
+
     # Adds a title to the Sidebar
     st.sidebar.title("Model Selection")
 
     # Adds a selection box to the Sidebar
-    model_selection = st.sidebar.selectbox(
+    page_selection = st.sidebar.selectbox(
         "Select a page:",
         [
             "Title Page",
@@ -29,11 +46,13 @@ def main():
             "Full Solve",
         ]
     )
-    if model_selection == "Title Page":
+
+    # Runs the selected page
+    if page_selection == "Title Page":
         TitlePage.Run()
-    elif model_selection == "Single Solve":
+    elif page_selection == "Single Solve":
         SingleSolve.Run()
-    elif model_selection == "Full Solve":
+    elif page_selection == "Full Solve":
         FullSolve.Run()
 
 
