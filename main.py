@@ -55,7 +55,9 @@ class SingleSolve:
             if st.button("Calculate Maximum Height"):
                 release_angle = degrees_to_radians(release_angle)
                 max_height = (release_velocity ** 2) * np.sin(2 * release_angle) / gravitational_acceleration
-                st.write(f"The Maximum Height is {max_height:.2f} meters")
+                answer_container = st.container(border=True)
+                with answer_container:
+                    st.write(f"The Maximum Height is {max_height:.2f} meters")
 
 
         with time_of_flight_tab:
@@ -86,7 +88,9 @@ class SingleSolve:
             if st.button("Calculate Time of Flight"):
                 release_angle = degrees_to_radians(release_angle)
                 time_of_flight = (2 * release_velocity * np.sin(release_angle)) / gravitational_acceleration
-                st.write(f"The time of flight is {time_of_flight:.2f} seconds")
+                answer_container = st.container(border=True)
+                with answer_container:
+                    st.write(f"The time of flight is {time_of_flight:.2f} seconds")
 
         with horizontal_range_tab:
             column1, column2 = st.columns(2)
@@ -116,7 +120,9 @@ class SingleSolve:
             if st.button("Calculate Horizontal Range"):
                 release_angle = degrees_to_radians(release_angle)
                 horizontal_range = (release_velocity ** 2) * np.sin(2 * release_angle) / gravitational_acceleration
-                st.write(f"The horizontal range is {horizontal_range:.2f} meters")
+                answer_container = st.container(border=True)
+                with answer_container:
+                    st.write(f"The horizontal range is {horizontal_range:.2f} meters")
 
 class FullSolve:
     @classmethod
