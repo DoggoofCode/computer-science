@@ -181,7 +181,18 @@ class FullSolve:
             key="full_solver_gravitational_acceleration"
         )
 
-        if st.button("Calculate"):
+        # Solution used as then the slider is used the button is set to false,
+        # which hides the answer. This solution is neccessary
+
+        def click_button():
+            st.session_state.button = not st.session_state.button
+
+        if 'button' not in st.session_state:
+            st.session_state.button = False
+
+        st.button("Calculate", on_click=click_button)
+
+        if st.session_state.button:
             # Adjust / Calculate the values
             time_of_flight = TrajectoryPropertyFuncs.TimeOfFlight(release_velocity, release_angle, gravitational_acceleration)
             max_height = TrajectoryPropertyFuncs.MaximumHeight(release_velocity, release_angle, gravitational_acceleration)
@@ -217,7 +228,26 @@ class FullSolve:
                     plt.xlabel("Distance (m)")
                     plt.ylabel("Height (m)")
                     st.pyplot(plt)
+                full_answer_slider, full_answer_slider_answer = st.columns(2)
+                with full_answer_slider:
+                    # Creates a slider to the thrown time
+                    arc_time_slider = st.slider(
+                        "Adjust the angle (º)",
+                        min_value=0.,
+                        max_value=100.,
+                        step=0.01,
+                        value = 1.
+                    )
+                with full_answer_slider_answer:
+                    # Calculates the height of the object at the given time
+                    adjusted_time = arc_time_slider * release_velocity
 
+                    subraction = np.tan(release_angle) * adjusted_time
+                    numerator = (gravitational_acceleration * (adjusted_time ** 2))
+                    denominator = 2 * release_velocity ** 2 * np.cos(release_angle) ** 2
+                    arc_height = (subraction - numerator / denominator) * 100
+
+                    st.write(f"The height of the object at {arc_time_slider:.2f} seconds is {float(arc_height):.2f} meters")
 
 
 def main():
