@@ -23,6 +23,7 @@ class TitlePage:
 class SingleSolve:
     @classmethod
     def Run(cls):
+        st.title("Single Solver")
         max_height_tab, time_of_flight_tab, horizontal_range_tab =  st.tabs(
             ["Maximum Height", "Time of Flight", "Horizontal Range"]
         )
