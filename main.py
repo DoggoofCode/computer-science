@@ -1,5 +1,6 @@
 import streamlit as st
 import numpy as np
+import matplotlib.pyplot as plt
 
 def degrees_to_radians(degrees):
     return degrees * np.pi / 180
@@ -179,6 +180,44 @@ class FullSolve:
             value=9.8,
             key="full_solver_gravitational_acceleration"
         )
+
+        if st.button("Calculate"):
+            # Adjust / Calculate the values
+            time_of_flight = TrajectoryPropertyFuncs.TimeOfFlight(release_velocity, release_angle, gravitational_acceleration)
+            max_height = TrajectoryPropertyFuncs.MaximumHeight(release_velocity, release_angle, gravitational_acceleration)
+            horizontal_range = TrajectoryPropertyFuncs.HorizontalRange(release_velocity, release_angle, gravitational_acceleration)
+            # Create a container for the answer
+            answer_container = st.container(border=True)
+            with answer_container:
+                full_answer_properties, full_answer_graph = st.columns(2)
+                with full_answer_properties:
+                    # Display the answers
+                    st.write(f"The time of flight is {time_of_flight:.2f} seconds")
+                    st.write(f"The Maximum Height is {max_height:.2f} meters")
+                    st.write(f"The horizontal range is {horizontal_range:.2f} meters")
+                with full_answer_graph:
+                    # Draws graph of the trajectory
+
+                    # Set the Matplotlib parameters for a black theme
+                    plt.style.use('dark_background')
+
+                    # Creates a linspace to draw the Graph
+                    # Note → Vega, the inbuilt grapher of Streamlit DOES NOT WORK!
+                    x = np.linspace(0, horizontal_range, 100)
+
+                    release_angle = degrees_to_radians(release_angle)
+
+                    subraction = np.tan(release_angle) * x
+                    numerator = (gravitational_acceleration * (x ** 2))
+                    denominator = 2 * release_velocity ** 2 * np.cos(release_angle)**2
+                    y = (subraction - numerator / denominator) * 100
+
+                    plt.title("Trajectory")
+                    plt.plot(x, y)
+                    plt.xlabel("Distance (m)")
+                    plt.ylabel("Height (m)")
+                    st.pyplot(plt)
+
 
 
 def main():
