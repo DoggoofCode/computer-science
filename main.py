@@ -4,6 +4,22 @@ import numpy as np
 def degrees_to_radians(degrees):
     return degrees * np.pi / 180
 
+class TrajectoryPropertyFuncs:
+    @classmethod
+    def MaximumHeight(cls, release_velocity, release_angle, gravitational_acceleration):
+        release_angle = degrees_to_radians(release_angle)
+        return (release_velocity ** 2) * (np.sin(release_angle)**2) / 2*gravitational_acceleration
+
+    @classmethod
+    def TimeOfFlight(cls, release_velocity, release_angle, gravitational_acceleration):
+        release_angle = degrees_to_radians(release_angle)
+        return (2 * release_velocity * np.sin(release_angle)) / gravitational_acceleration
+
+    @classmethod
+    def HorizontalRange(cls, release_velocity, release_angle, gravitational_acceleration):
+        release_angle = degrees_to_radians(release_angle)
+        return (release_velocity ** 2) * np.sin(2 * release_angle) / gravitational_acceleration
+
 class TitlePage:
     @classmethod
     def Run(cls):
@@ -53,12 +69,16 @@ class SingleSolve:
             )
 
             if st.button("Calculate Maximum Height"):
-                release_angle = degrees_to_radians(release_angle)
-                max_height = (release_velocity ** 2) * np.sin(2 * release_angle) / gravitational_acceleration
                 answer_container = st.container(border=True)
                 with answer_container:
-                    st.write(f"The Maximum Height is {max_height:.2f} meters")
-
+                    st.write(
+                        f"The Maximum Height is {
+                            TrajectoryPropertyFuncs.MaximumHeight(
+                                release_velocity,
+                                release_angle,
+                                gravitational_acceleration
+                            ):.2f}"
+                        f" meters")
 
         with time_of_flight_tab:
             column1, column2 = st.columns(2)
@@ -86,11 +106,16 @@ class SingleSolve:
             )
 
             if st.button("Calculate Time of Flight"):
-                release_angle = degrees_to_radians(release_angle)
-                time_of_flight = (2 * release_velocity * np.sin(release_angle)) / gravitational_acceleration
                 answer_container = st.container(border=True)
                 with answer_container:
-                    st.write(f"The time of flight is {time_of_flight:.2f} seconds")
+                    st.write(
+                        f"The time of flight is {TrajectoryPropertyFuncs.TimeOfFlight(
+                            release_velocity,
+                            release_angle,
+                            gravitational_acceleration
+                        ):.2f}"
+                        f" seconds"
+                    )
 
         with horizontal_range_tab:
             column1, column2 = st.columns(2)
@@ -118,16 +143,43 @@ class SingleSolve:
             )
 
             if st.button("Calculate Horizontal Range"):
-                release_angle = degrees_to_radians(release_angle)
-                horizontal_range = (release_velocity ** 2) * np.sin(2 * release_angle) / gravitational_acceleration
                 answer_container = st.container(border=True)
                 with answer_container:
-                    st.write(f"The horizontal range is {horizontal_range:.2f} meters")
+                    st.write(f"The horizontal range is {TrajectoryPropertyFuncs.HorizontalRange(
+                        release_velocity,
+                        release_angle,
+                        gravitational_acceleration
+                    ):.2f} meters")
 
 class FullSolve:
     @classmethod
     def Run(cls):
-        pass
+        st.title("Full Solver")
+
+        column1, column2 = st.columns(2)
+        with column1:
+            release_velocity = st.number_input(
+                "Please input the release velocity (m/s)",
+                step=0.01,
+                value=10.0,
+                key="full_solver_release_velocity"
+            )
+        with column2:
+            release_angle = st.number_input(
+                "Please input the release angle (º)",
+                min_value=0.01,
+                max_value=89.99,
+                step=0.01,
+                value=45.0,
+                key="full_solver_release_angle"
+            )
+        gravitational_acceleration = st.number_input(
+            "(Advanced) Input gravitational acceleration (m/s²)",
+            min_value=0.01,
+            value=9.8,
+            key="full_solver_gravitational_acceleration"
+        )
+
 
 def main():
     # Sets Essential Page Configuration (wide-screen mode)
