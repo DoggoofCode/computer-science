@@ -47,7 +47,7 @@ class SingleSolve:
                 )
             gravitational_acceleration = st.number_input(
                 "(Advanced) Input gravitational acceleration (m/s²)",
-                min_value=0.,
+                min_value=0.01,
                 value=9.8,
                 key="max_height_gravitational_acceleration"
             )
@@ -112,7 +112,7 @@ class SingleSolve:
                 )
             gravitational_acceleration = st.number_input(
                 "(Advanced) Input gravitational acceleration (m/s²)",
-                min_value=0.,
+                min_value=0.01,
                 value=9.8,
                 key="horizontal_range_gravitational_acceleration"
             )
