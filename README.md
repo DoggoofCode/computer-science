@@ -7,4 +7,4 @@
 4. Install the requirements:
     - `pip install -r requirements.txt`
 5. Run the application:
-    - ```bash streamlit run main.py```
+    - ```streamlit run main.py```
