@@ -83,9 +83,9 @@ class FullSolve:
                 with full_answer_slider:
                     # Creates a slider to the thrown time
                     arc_time_slider = st.slider(
-                        "Adjust the angle (º)",
+                        "Find the height at a certain **time**",
                         min_value=0.,
-                        max_value=100.,
+                        max_value=3.,
                         step=0.01,
                         value = 1.
                     )
