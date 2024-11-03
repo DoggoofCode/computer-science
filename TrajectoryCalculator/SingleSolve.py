@@ -4,11 +4,15 @@ from TrajectoryCalculator.TrajectoryCalculation import TrajectoryPropertyFuncs
 class SingleSolve:
     @classmethod
     def Run(cls):
+        # Gives a title to the page / tabs
         st.title("Single Solver")
         max_height_tab, time_of_flight_tab, horizontal_range_tab =  st.tabs(
             ["Maximum Height", "Time of Flight", "Horizontal Range"]
         )
+
+        # Tab 1: Maximum Height
         with max_height_tab:
+            # Creates a 2 columns (inline) for the input
             column1, column2 = st.columns(2)
             with column1:
                 release_velocity = st.number_input(
@@ -26,6 +30,8 @@ class SingleSolve:
                     value=45.0,
                     key="max_height_release_angle"
                 )
+
+            # Out of line, the gravitational acceleration is set
             gravitational_acceleration = st.number_input(
                 "(Advanced) Input gravitational acceleration (m/s²)",
                 min_value=0.01,
@@ -33,9 +39,12 @@ class SingleSolve:
                 key="max_height_gravitational_acceleration"
             )
 
+            # Button to calculate the answer
             if st.button("Calculate Maximum Height"):
+                # Creates a border around the answer
                 answer_container = st.container(border=True)
                 with answer_container:
+                    # Display the answer
                     st.write(
                         f"The Maximum Height is {
                             TrajectoryPropertyFuncs.MaximumHeight(
@@ -45,7 +54,9 @@ class SingleSolve:
                             ):.2f}"
                         f" meters")
 
+        # Tab 2: Time of Flight
         with time_of_flight_tab:
+            # Creates a 2 columns (inline) for the input
             column1, column2 = st.columns(2)
             with column1:
                 release_velocity = st.number_input(
@@ -70,9 +81,11 @@ class SingleSolve:
                 key="time_of_flight_gravitational_acceleration"
             )
 
+            # Button to calculate the answer
             if st.button("Calculate Time of Flight"):
                 answer_container = st.container(border=True)
                 with answer_container:
+                    # Writes the answer, calls the function and formats the answer
                     st.write(
                         f"The time of flight is {TrajectoryPropertyFuncs.TimeOfFlight(
                             release_velocity,
@@ -82,6 +95,7 @@ class SingleSolve:
                         f" seconds"
                     )
 
+        # Tab 3: Horizontal Range
         with horizontal_range_tab:
             column1, column2 = st.columns(2)
             with column1:

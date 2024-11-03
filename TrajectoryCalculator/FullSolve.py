@@ -6,8 +6,10 @@ from TrajectoryCalculator.TrajectoryCalculation import TrajectoryPropertyFuncs
 class FullSolve:
     @classmethod
     def Run(cls):
+        # Gives a title to the page
         st.title("Full Solver")
 
+        # Creates a 2 columns  for the input
         column1, column2 = st.columns(2)
         with column1:
             release_velocity = st.number_input(
@@ -25,10 +27,12 @@ class FullSolve:
                 value=45.0,
                 key="full_solver_release_angle"
             )
+
+        # Out of line, the gravitational acceleration is set
         gravitational_acceleration = st.number_input(
             "(Advanced) Input gravitational acceleration (m/s²)",
             min_value=0.01,
-            value=9.8,
+            value=9.8, # Default value = Earth's gravitational acceleration
             key="full_solver_gravitational_acceleration"
         )
 
