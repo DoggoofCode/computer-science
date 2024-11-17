@@ -9,7 +9,9 @@ class TrajectoryPropertyFuncs:
     def MaximumHeight(cls, release_velocity, release_angle, gravitational_acceleration):
         # Calculate the maximum height of the projectile
         release_angle = _degrees_to_radians(release_angle)
-        return (release_velocity ** 2) * (np.sin(release_angle)**2) / 2*gravitational_acceleration
+        numerator = ((release_velocity ** 2) * (np.sin(release_angle)**2))
+        denominator = (2*gravitational_acceleration)
+        return numerator / denominator
 
     @classmethod
     def TimeOfFlight(cls, release_velocity, release_angle, gravitational_acceleration):
